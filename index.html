@@ -1,13 +1,40 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>cubicformula</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
-</html>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cubic Formula</title>
+  <script type="module" src="/main.js"></script>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+
+<body>
+  <h1 class="page-title">Cubic Solver</h1>
+
+  <div class="input-row">
+    <div class="input-group">
+      <h2 class="input-title">a-value:</h2>
+      <input type="number" id="a-value" step="any" value="0">
+    </div>
+
+    <div class="input-group">
+      <h2 class="input-title">b-value:</h2>
+      <input type="number" id="b-value" step="any" value="0">
+    </div>
+
+    <div class="input-group">
+      <h2 class="input-title">c-value:</h2>
+      <input type="number" id="c-value" step="any" value="0">
+    </div>
+
+    <div class="input-group">
+      <h2 class="input-title">d-value:</h2>
+      <input type="number" id="d-value" step="any" value="0">
+    </div>
+
+    <button id="solve-btn">Solve Cubic</button>
+  </div>
+
+</body>
