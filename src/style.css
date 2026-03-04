@@ -63,3 +63,59 @@ button {
 button:hover {
     background-color: #E6AACE;
 }
+
+.result-box {
+  width: 340px;
+  margin-top: 30px;
+  margin-left: 60px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.result-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 12px 16px;
+  border-bottom: 1px solid #eee;
+}
+
+.result-box h3 {
+  margin: 0;
+}
+
+.xy-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 140px;
+  justify-self: end;
+  text-align: center;
+}
+
+.xy-grid h3 {
+  margin: 0;
+}
+
+.values-header,
+#root1-value,
+#root2-value,
+#root3-value {
+  font-family: monospace;
+  letter-spacing: 2px;
+  text-align: right;
+}
+
+.equation-display {
+  margin: 20px auto;
+  padding: 12px 20px;
+  background: white;
+  border-radius: 12px;
+  width: fit-content;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+#equation-text {
+  margin: 0;
+  color: #344966;
+  font-weight: 600;
+}
