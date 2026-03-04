@@ -1,3 +1,6 @@
+alert("Script is running!");
+console.log("Script started");
+
 const solveButton = document.getElementById(
   "solve-button",
 ) as HTMLButtonElement;
@@ -14,25 +17,31 @@ solveButton.addEventListener("click", () => {
   const d = parseFloat(dInput.value);
 
 const formatTerm = (value: number, variable: string) => {
-  if (value === 0) return "";
-  if (value === 1) return ` + ${variable}`;
-  if (value === -1) return ` - ${variable}`;
-  return value > 0
-    ? ` + ${value}${variable}`
-    : ` - ${Math.abs(value)}${variable}`;
+  if (value === 0) return "";  
+  
+  if (value > 0) {
+    return ` + ${value}${variable}`;
+  } else {
+    return ` - ${Math.abs(value)}${variable}`;
+  }
 };
 
-let equation = `${a}x³`;
+let equation = "";
+if (a !== 0) {
+  equation = `${a}x³`;  
+}
+
 equation += formatTerm(b, "x²");
 equation += formatTerm(c, "x");
 equation += formatTerm(d, "");
 equation += " = 0";
 
-const equationEl = document.getElementById(
-  "equation-text"
-) as HTMLElement;
+equation = equation
+  .replace(/\+ -/g, "- ")
+  .replace(/^\s\+\s/, "");
 
-equationEl.textContent = equation.replace("+ -", "- ");
+const equationEl = document.getElementById("equation-text") as HTMLElement;
+equationEl.textContent = equation;
 
   const p = (3 * a * c - b * b) / (3 * a * a);
   const q = (2 * b * b * b - 9 * a * b * c + 27 * a * a * d) / (27 * a * a * a);
