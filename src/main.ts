@@ -1,6 +1,3 @@
-alert("Script is running!");
-console.log("Script started");
-
 const solveButton = document.getElementById(
   "solve-button",
 ) as HTMLButtonElement;
@@ -16,32 +13,30 @@ solveButton.addEventListener("click", () => {
   const c = parseFloat(cInput.value);
   const d = parseFloat(dInput.value);
 
-const formatTerm = (value: number, variable: string) => {
-  if (value === 0) return "";  
-  
-  if (value > 0) {
-    return ` + ${value}${variable}`;
-  } else {
-    return ` - ${Math.abs(value)}${variable}`;
+  const formatTerm = (value: number, variable: string) => {
+    if (value === 0) return "";
+
+    if (value > 0) {
+      return ` + ${value}${variable}`;
+    } else {
+      return ` - ${Math.abs(value)}${variable}`;
+    }
+  };
+
+  let equation = "";
+  if (a !== 0) {
+    equation = `${a}x³`;
   }
-};
 
-let equation = "";
-if (a !== 0) {
-  equation = `${a}x³`;  
-}
+  equation += formatTerm(b, "x²");
+  equation += formatTerm(c, "x");
+  equation += formatTerm(d, "");
+  equation += " = 0";
 
-equation += formatTerm(b, "x²");
-equation += formatTerm(c, "x");
-equation += formatTerm(d, "");
-equation += " = 0";
+  equation = equation.replace(/\+ -/g, "- ").replace(/^\s\+\s/, "");
 
-equation = equation
-  .replace(/\+ -/g, "- ")
-  .replace(/^\s\+\s/, "");
-
-const equationEl = document.getElementById("equation-text") as HTMLElement;
-equationEl.textContent = equation;
+  const equationEl = document.getElementById("equation-text") as HTMLElement;
+  equationEl.textContent = equation;
 
   const p = (3 * a * c - b * b) / (3 * a * a);
   const q = (2 * b * b * b - 9 * a * b * c + 27 * a * a * d) / (27 * a * a * a);
@@ -92,30 +87,29 @@ equationEl.textContent = equation;
     }
   };
 
-const roots = getRoots();
+  const roots = getRoots();
 
-const pEl = document.getElementById("p-value")!;
-const qEl = document.getElementById("q-value")!;
-const discEl = document.getElementById("disc-value")!;
+  const pEl = document.getElementById("p-value")!;
+  const qEl = document.getElementById("q-value")!;
+  const discEl = document.getElementById("disc-value")!;
 
-pEl.textContent = p.toFixed(4);
-qEl.textContent = q.toFixed(4);
-discEl.textContent = discriminant.toFixed(4);
+  pEl.textContent = p.toFixed(4);
+  qEl.textContent = q.toFixed(4);
+  discEl.textContent = discriminant.toFixed(4);
 
-const root1El = document.getElementById("root1-value") as HTMLElement;
-const root2El = document.getElementById("root2-value") as HTMLElement;
-const root3El = document.getElementById("root3-value") as HTMLElement;
+  const root1El = document.getElementById("root1-value") as HTMLElement;
+  const root2El = document.getElementById("root2-value") as HTMLElement;
+  const root3El = document.getElementById("root3-value") as HTMLElement;
 
 const formatRoot = (r: number | string) => {
   if (typeof r === "number") {
-    return `${r.toFixed(4)}    0`;
+    return `${r.toFixed(4)} 0`; 
   } else {
-    return `complex    0`;
+    return `complex 0`; 
   }
 };
 
-root1El.textContent = formatRoot(roots[0]);
-root2El.textContent = formatRoot(roots[1]);
-root3El.textContent = formatRoot(roots[2]);
-
+ root1El.innerHTML = formatRoot(roots[0]);
+root2El.innerHTML = formatRoot(roots[1]);
+root3El.innerHTML = formatRoot(roots[2]);
 });
