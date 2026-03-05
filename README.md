@@ -1,5 +1,5 @@
 ## Cubic Formula Website (Assignment 2)
-[https://ritali3711.github.io/CubicFormula/]
+[https://incredible-gumdrop-1cf1bd.netlify.app/]
 
 This website provides the roots and a graph for cubic formulas!
 Solves the following cubic roots:
