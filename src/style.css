@@ -95,8 +95,10 @@ button:hover {
   margin: 0;
 }
 
-#root1-value, #root2-value, #root3-value {
-  word-spacing: 50px; 
+#root1-value,
+#root2-value,
+#root3-value {
+  word-spacing: 50px;
   margin-left: 5px;
 }
 
@@ -122,4 +124,20 @@ button:hover {
   margin: 0;
   color: #344966;
   font-weight: 600;
+}
+
+.canvas-container {
+  margin: 30px auto;
+  width: fit-content;
+  border: 2px solid #e6aace;
+  border-radius: 10px;
+  padding: 10px;
+  background: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+#graph {
+  display: block;
+  background: #f9f9f9;
+  border: 1px solid #ddd;
 }
