@@ -93,6 +93,14 @@ solveButton.addEventListener("click", () => {
   const c = parseFloat(cInput.value);
   const d = parseFloat(dInput.value);
 
+  const equationEl = document.getElementById("equation-text") as HTMLElement;
+  const pEl = document.getElementById("p-value")!;
+  const qEl = document.getElementById("q-value")!;
+  const discEl = document.getElementById("disc-value")!;
+  const root1El = document.getElementById("root1-value") as HTMLElement;
+  const root2El = document.getElementById("root2-value") as HTMLElement;
+  const root3El = document.getElementById("root3-value") as HTMLElement;
+
   const formatTerm = (value: number, variable: string) => {
     if (value === 0) return "";
 
@@ -103,11 +111,19 @@ solveButton.addEventListener("click", () => {
     }
   };
 
-  const equationEl = document.getElementById("equation-text") as HTMLElement;
+  const clearResults = () => {
+    pEl.textContent = "";
+    qEl.textContent = "";
+    discEl.textContent = "";
+    root1El.innerHTML = "";
+    root2El.innerHTML = "";
+    root3El.innerHTML = "";
+  };
 
   if (a === 0) {
     equationEl.textContent = "give a cubic equation";
     drawGrid(); // Show empty grid
+    clearResults();
     return;
   }
 
@@ -171,17 +187,9 @@ solveButton.addEventListener("click", () => {
 
   const roots = getRoots();
 
-  const pEl = document.getElementById("p-value")!;
-  const qEl = document.getElementById("q-value")!;
-  const discEl = document.getElementById("disc-value")!;
-
   pEl.textContent = p.toFixed(4);
   qEl.textContent = q.toFixed(4);
   discEl.textContent = discriminant.toFixed(4);
-
-  const root1El = document.getElementById("root1-value") as HTMLElement;
-  const root2El = document.getElementById("root2-value") as HTMLElement;
-  const root3El = document.getElementById("root3-value") as HTMLElement;
 
   const formatRoot = (r: number | string) => {
     if (typeof r === "number") {
