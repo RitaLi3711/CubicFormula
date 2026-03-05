@@ -11,77 +11,81 @@
 </head>
 
 <body>
-  <h1 class="page-title">Cubic Solver</h1>
+  <div>
+    <h1 class="page-title">Cubic Solver</h1>
 
-  <div class="input-row">
-    <div class="input-group">
-      <h2 class="input-title">a-value:</h2>
-      <input type="number" id="a-value" step="any" value="0" />
+    <div class="input-row">
+      <div class="input-group">
+        <h2 class="input-title">a-value:</h2>
+        <input type="number" id="a-value" step="any" value="0" />
+      </div>
+
+      <div class="input-group">
+        <h2 class="input-title">b-value:</h2>
+        <input type="number" id="b-value" step="any" value="0" />
+      </div>
+
+      <div class="input-group">
+        <h2 class="input-title">c-value:</h2>
+        <input type="number" id="c-value" step="any" value="0" />
+      </div>
+
+      <div class="input-group">
+        <h2 class="input-title">d-value:</h2>
+        <input type="number" id="d-value" step="any" value="0" />
+      </div>
+
+      <button id="solve-button">Solve Cubic</button>
     </div>
 
-    <div class="input-group">
-      <h2 class="input-title">b-value:</h2>
-      <input type="number" id="b-value" step="any" value="0" />
+    <div class="equation-display" id="equation-display">
+      <h2 id="equation-text">0x³ + 0x² + 0x + 0 = 0</h2>
     </div>
 
-    <div class="input-group">
-      <h2 class="input-title">c-value:</h2>
-      <input type="number" id="c-value" step="any" value="0" />
+    <div class="content-row">
+
+      <div class="result-box">
+        <div class="result-row">
+          <h3 class="result-title">p</h3>
+          <h3 id="p-value"></h3>
+        </div>
+
+        <div class="result-row">
+          <h3 class="result-title">q</h3>
+          <h3 id="q-value"></h3>
+        </div>
+
+        <div class="result-row">
+          <h3 class="result-title">Discriminant</h3>
+          <h3 id="disc-value"></h3>
+        </div>
+
+        <div class="result-row">
+          <h3 class="result-title">Values</h3>
+          <h3 class="values-header value-display">x&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y</h3>
+        </div>
+
+        <div class="result-row">
+          <h3 class="result-title">Root 1</h3>
+          <h3 id="root1-value" class="value-display"></h3>
+        </div>
+
+        <div class="result-row">
+          <h3 class="result-title">Root 2</h3>
+          <h3 id="root2-value" class="value-display"></h3>
+        </div>
+
+        <div class="result-row">
+          <h3 class="result-title">Root 3</h3>
+          <h3 id="root3-value" class="value-display"></h3>
+        </div>
+      </div>
+
+      <div class="canvas-container">
+        <canvas id="graph" width="600" height="400"></canvas>
+      </div>
+
     </div>
-
-    <div class="input-group">
-      <h2 class="input-title">d-value:</h2>
-      <input type="number" id="d-value" step="any" value="0" />
-    </div>
-
-    <button id="solve-button">Solve Cubic</button>
-  </div>
-
-  <div class="equation-display" id="equation-display">
-    <h2 id="equation-text">0x³ + 0x² + 0x + 0 = 0</h2>
-  </div>
-  <div class="result-box">
-
-    <div class="result-row">
-      <h3 class="result-title">p</h3>
-      <h3 id="p-value"></h3>
-    </div>
-
-    <div class="result-row">
-      <h3 class="result-title">q</h3>
-      <h3 id="q-value"></h3>
-    </div>
-
-    <div class="result-row">
-      <h3 class="result-title">Discriminant</h3>
-      <h3 id="disc-value"></h3>
-    </div>
-
-    <div class="result-row">
-      <h3 class="result-title">Values</h3>
-      <h3 class="values-header value-display">x&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y</h3>
-    </div>
-
-    <div class="result-row">
-      <h3 class="result-title">Root 1</h3>
-      <h3 id="root1-value" class="value-display"></h3>
-    </div>
-
-    <div class="result-row">
-      <h3 class="result-title">Root 2</h3>
-      <h3 id="root2-value" class="value-display"></h3>
-    </div>
-
-    <div class="result-row">
-      <h3 class="result-title">Root 3</h3>
-      <h3 id="root3-value" class="value-display"></h3>
-    </div>
-  </div>
-
-  <div class="canvas-container">
-    <canvas id="graph" width="600" height="400"></canvas>
-  </div>
-  </div>
 </body>
 
 </html>

@@ -78,7 +78,9 @@ const drawGraph = (
 
 drawGrid();
 
-const solveButton = document.getElementById("solve-button",) as HTMLButtonElement;
+const solveButton = document.getElementById(
+  "solve-button",
+) as HTMLButtonElement;
 
 solveButton.addEventListener("click", () => {
   const aInput = document.getElementById("a-value") as HTMLInputElement;
@@ -101,21 +103,23 @@ solveButton.addEventListener("click", () => {
     }
   };
 
-  let equation = "";
-  if (a !== 0) {
-    equation = `${a}x³`;
+  const equationEl = document.getElementById("equation-text") as HTMLElement;
+
+  if (a === 0) {
+    equationEl.textContent = "give a cubic equation";
+    drawGrid(); // Show empty grid
+    return;
   }
 
+  let equation = `${a}x³`;
   equation += formatTerm(b, "x²");
   equation += formatTerm(c, "x");
   equation += formatTerm(d, "");
   equation += " = 0";
-if (a!==0){
   equation = equation.replace(/\+ -/g, "- ").replace(/^\s\+\s/, "");
 
-  const equationEl = document.getElementById("equation-text") as HTMLElement;
   equationEl.textContent = equation;
-}
+
   const p = (3 * a * c - b * b) / (3 * a * a);
   const q = (2 * b * b * b - 9 * a * b * c + 27 * a * a * d) / (27 * a * a * a);
   const translation = -b / (3 * a);
@@ -164,7 +168,7 @@ if (a!==0){
       }
     }
   };
-  if(a!==0){
+
   const roots = getRoots();
 
   const pEl = document.getElementById("p-value")!;
@@ -192,5 +196,4 @@ if (a!==0){
   root3El.innerHTML = formatRoot(roots[2]);
 
   drawGraph(a, b, c, d, roots);
-}
 });
