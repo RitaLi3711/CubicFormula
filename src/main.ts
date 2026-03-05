@@ -1,3 +1,83 @@
+const drawGrid = () => {
+  const canvas = document.getElementById("graph") as HTMLCanvasElement;
+  const ctx = canvas.getContext("2d")!;
+
+  ctx.clearRect(0, 0, 600, 400);
+
+  ctx.beginPath();
+  ctx.strokeStyle = "#cccccc";
+  ctx.lineWidth = 0.5;
+
+  for (let x = -5; x <= 5; x += 1) {
+    const canvasX = 300 + x * 50;
+    ctx.moveTo(canvasX, 0);
+    ctx.lineTo(canvasX, 400);
+  }
+
+  for (let y = -4; y <= 4; y += 1) {
+    const canvasY = 200 - y * 50;
+    ctx.moveTo(0, canvasY);
+    ctx.lineTo(600, canvasY);
+  }
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.strokeStyle = "#333";
+  ctx.lineWidth = 2;
+  ctx.moveTo(0, 200);
+  ctx.lineTo(600, 200);
+  ctx.moveTo(300, 0);
+  ctx.lineTo(300, 400);
+  ctx.stroke();
+};
+
+const drawGraph = (
+  a: number,
+  b: number,
+  c: number,
+  d: number,
+  roots: (number | string)[],
+) => {
+  const canvas = document.getElementById("graph") as HTMLCanvasElement;
+  const ctx = canvas.getContext("2d")!;
+
+  drawGrid();
+
+  ctx.beginPath();
+  ctx.strokeStyle = "#e6aace";
+  ctx.lineWidth = 3;
+
+  const scale = 50;
+  let first = true;
+
+  for (let x = -5; x <= 5; x += 0.1) {
+    const y = a * Math.pow(x, 3) + b * Math.pow(x, 2) + c * x + d;
+    const canvasX = 300 + x * scale;
+    const canvasY = 200 - y * scale;
+
+    if (first) {
+      ctx.moveTo(canvasX, canvasY);
+      first = false;
+    } else {
+      ctx.lineTo(canvasX, canvasY);
+    }
+  }
+  ctx.stroke();
+
+  roots.forEach((root) => {
+    if (typeof root === "number") {
+      ctx.beginPath();
+      ctx.fillStyle = "red";
+      const canvasX = 300 + root * scale;
+      const canvasY = 200;
+      ctx.arc(canvasX, canvasY, 6, 0, 2 * Math.PI);
+      ctx.fill();
+    }
+  });
+};
+
+drawGrid();
+
 const solveButton = document.getElementById(
   "solve-button",
 ) as HTMLButtonElement;
@@ -101,15 +181,17 @@ solveButton.addEventListener("click", () => {
   const root2El = document.getElementById("root2-value") as HTMLElement;
   const root3El = document.getElementById("root3-value") as HTMLElement;
 
-const formatRoot = (r: number | string) => {
-  if (typeof r === "number") {
-    return `${r.toFixed(4)} 0`; 
-  } else {
-    return `complex 0`; 
-  }
-};
+  const formatRoot = (r: number | string) => {
+    if (typeof r === "number") {
+      return `${r.toFixed(4)} 0`;
+    } else {
+      return `complex 0`;
+    }
+  };
 
- root1El.innerHTML = formatRoot(roots[0]);
-root2El.innerHTML = formatRoot(roots[1]);
-root3El.innerHTML = formatRoot(roots[2]);
+  root1El.innerHTML = formatRoot(roots[0]);
+  root2El.innerHTML = formatRoot(roots[1]);
+  root3El.innerHTML = formatRoot(roots[2]);
+
+  drawGraph(a, b, c, d, roots);
 });
