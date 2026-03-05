@@ -78,9 +78,7 @@ const drawGraph = (
 
 drawGrid();
 
-const solveButton = document.getElementById(
-  "solve-button",
-) as HTMLButtonElement;
+const solveButton = document.getElementById("solve-button",) as HTMLButtonElement;
 
 solveButton.addEventListener("click", () => {
   const aInput = document.getElementById("a-value") as HTMLInputElement;
@@ -112,12 +110,12 @@ solveButton.addEventListener("click", () => {
   equation += formatTerm(c, "x");
   equation += formatTerm(d, "");
   equation += " = 0";
-
+if (a!==0){
   equation = equation.replace(/\+ -/g, "- ").replace(/^\s\+\s/, "");
 
   const equationEl = document.getElementById("equation-text") as HTMLElement;
   equationEl.textContent = equation;
-
+}
   const p = (3 * a * c - b * b) / (3 * a * a);
   const q = (2 * b * b * b - 9 * a * b * c + 27 * a * a * d) / (27 * a * a * a);
   const translation = -b / (3 * a);
@@ -166,7 +164,7 @@ solveButton.addEventListener("click", () => {
       }
     }
   };
-
+  if(a!==0){
   const roots = getRoots();
 
   const pEl = document.getElementById("p-value")!;
@@ -194,4 +192,5 @@ solveButton.addEventListener("click", () => {
   root3El.innerHTML = formatRoot(roots[2]);
 
   drawGraph(a, b, c, d, roots);
+}
 });
