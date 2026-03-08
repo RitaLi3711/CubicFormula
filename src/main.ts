@@ -72,8 +72,91 @@ const drawFunction = (
   });
 };
 
-drawGrid(); //initalize site with empty grid
+  //clears results box
+const clearResults = (
+  pEl: HTMLElement,
+  qEl: HTMLElement,
+  discEl: HTMLElement,
+  root1El: HTMLElement,
+  root2El: HTMLElement,
+  root3El: HTMLElement,
+) => {
+  pEl.textContent = "";
+  qEl.textContent = "";
+  discEl.textContent = "";
+  root1El.innerHTML = "";
+  root2El.innerHTML = "";
+  root3El.innerHTML = "";
+};
 
+  //gives sign in equation
+const formatTerm = (value: number, variable: string) => {
+  if (value === 0) {
+    return "";
+  } else if (value > 0) {
+    return ` + ${value}${variable}`;
+  } else {
+    return ` - ${Math.abs(value)}${variable}`;
+  }
+};
+
+const trigMethod = (p: number, q: number, translation: number) => {
+  const k = 2 * Math.sqrt(-p / 3);
+  const theta = Math.acos(-q / (2 * Math.sqrt(-Math.pow(p / 3, 3)))) / 3;
+
+  return [
+    k * Math.cos(theta) + translation,
+    k * Math.cos(theta + (2 * Math.PI) / 3) + translation,
+    k * Math.cos(theta + (4 * Math.PI) / 3) + translation,
+  ];
+};
+
+const cardanoMethod = (p: number, q: number, translation: number) => {
+  const u = Math.cbrt(
+    -q / 2 + Math.sqrt(Math.pow(q / 2, 2) + Math.pow(p / 3, 3)),
+  );
+  const v = Math.cbrt(
+    -q / 2 - Math.sqrt(Math.pow(q / 2, 2) + Math.pow(p / 3, 3)),
+  );
+
+  return u + v + translation;
+};
+
+const getRoots = (
+  discriminant: number,
+  p: number,
+  q: number,
+  translation: number,
+) => {
+  if (discriminant < 0) {
+    return trigMethod(p, q, translation);
+  } else if (discriminant > 0) {
+    const realRoot = cardanoMethod(p, q, translation);
+    return [realRoot, "complex", "complex"];
+  } else {
+    if (p === 0 && q === 0) {
+      const realRoot = cardanoMethod(p, q, translation);
+      return [realRoot, realRoot, realRoot];
+    } else {
+      const r1 = Math.cbrt(q / 2);
+      const r2 = -2 * r1;
+      const doubleRoot = r1 + translation;
+      const singleRoot = r2 + translation;
+      return [doubleRoot, doubleRoot, singleRoot];
+    }
+  }
+};
+
+//determine if root is complex
+const formatRoot = (r: number | string) => {
+  if (typeof r === "number") {
+    return `${r.toFixed(4)} 0`;
+  } else {
+    return `complex 0`;
+  }
+};
+
+drawGrid(); //initalize site with empty grid
 const solveButton = document.getElementById(
   "solve-button",
 ) as HTMLButtonElement;
@@ -101,42 +184,16 @@ solveButton.addEventListener("click", () => {
   const root2El = document.getElementById("root2-value") as HTMLElement;
   const root3El = document.getElementById("root3-value") as HTMLElement;
 
-  const clearResults = () => {
-    //clears results box
-    pEl.textContent = "";
-    qEl.textContent = "";
-    discEl.textContent = "";
-    root1El.innerHTML = "";
-    root2El.innerHTML = "";
-    root3El.innerHTML = "";
-  };
-
+  //must be cubic feature
   if (a === 0) {
-    //must be cubic feature
     equationEl.textContent = "give a cubic equation";
     drawGrid(); // Show empty grid
-    clearResults();
+    clearResults(pEl, qEl, discEl, root1El, root2El, root3El);
     return;
   }
 
-  const formatTerm = (value: number, variable: string) => {
-    //gives sign in equation
-    if (value === 0) {
-      return "";
-    } else if (value > 0) {
-      return ` + ${value}${variable}`;
-    } else {
-      return ` - ${Math.abs(value)}${variable}`;
-    }
-  };
-
-  let equation = `${a}x³`;
-  equation += formatTerm(b, "x²");
-  equation += formatTerm(c, "x");
-  equation += formatTerm(d, "");
-  equation += " = 0";
+  let equation = `${a}x³${formatTerm(b, "x²")}${formatTerm(c, "x")}${formatTerm(d, "")} = 0`;
   equation = equation.replace(/\+ -/g, "- ").replace(/^\s\+\s/, "");
-
   equationEl.textContent = equation;
 
   const p = (3 * a * c - b * b) / (3 * a * a);
@@ -144,63 +201,11 @@ solveButton.addEventListener("click", () => {
   const translation = -b / (3 * a);
   const discriminant = (q / 2) ** 2 + (p / 3) ** 3;
 
-  const trigMethod = (p: number, q: number) => {
-    const k = 2 * Math.sqrt(-p / 3);
-    const theta = Math.acos(-q / (2 * Math.sqrt(-Math.pow(p / 3, 3)))) / 3;
+  const roots = getRoots(discriminant, p, q, translation);
 
-    return [
-      k * Math.cos(theta) + translation,
-      k * Math.cos(theta + (2 * Math.PI) / 3) + translation,
-      k * Math.cos(theta + (4 * Math.PI) / 3) + translation,
-    ];
-  };
-
-  const cardanoMethod = (p: number, q: number) => {
-    const u = Math.cbrt(
-      -q / 2 + Math.sqrt(Math.pow(q / 2, 2) + Math.pow(p / 3, 3)),
-    );
-    const v = Math.cbrt(
-      -q / 2 - Math.sqrt(Math.pow(q / 2, 2) + Math.pow(p / 3, 3)),
-    );
-
-    return u + v + translation;
-  };
-
-  const getRoots = () => {
-    if (discriminant < 0) {
-      return trigMethod(p, q);
-    } else if (discriminant > 0) {
-      const realRoot = cardanoMethod(p, q);
-      return [realRoot, "complex", "complex"];
-    } else {
-      if (p === 0 && q === 0) {
-        const realRoot = cardanoMethod(p, q);
-        return [realRoot, realRoot, realRoot];
-      } else {
-        const r1 = Math.cbrt(q / 2);
-        const r2 = -2 * r1;
-        const doubleRoot = r1 + translation;
-        const singleRoot = r2 + translation;
-
-        return [doubleRoot, doubleRoot, singleRoot];
-      }
-    }
-  };
-
-  const roots = getRoots();
-
-  pEl.textContent = p.toFixed(4);
+  pEl.textContent = p.toFixed(4);  //update result box
   qEl.textContent = q.toFixed(4);
   discEl.textContent = discriminant.toFixed(4);
-
-  const formatRoot = (r: number | string) => {
-    if (typeof r === "number") {
-      return `${r.toFixed(4)} 0`;
-    } else {
-      return `complex 0`;
-    }
-  };
-
   root1El.innerHTML = formatRoot(roots[0]);
   root2El.innerHTML = formatRoot(roots[1]);
   root3El.innerHTML = formatRoot(roots[2]);
