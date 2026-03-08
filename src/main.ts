@@ -2,20 +2,16 @@ const drawGrid = () => {
   const canvas = document.getElementById("graph") as HTMLCanvasElement;
   const ctx = canvas.getContext("2d")!;
 
-  ctx.clearRect(0, 0, 600, 400);
-
   ctx.beginPath();
-  ctx.strokeStyle = "#cccccc";
+  ctx.strokeStyle = "#cccccc"; //grid lines
   ctx.lineWidth = 0.5;
-
-  for (let x = -5; x <= 5; x += 1) {
-    const canvasX = 300 + x * 50;
+  for (let x = -15; x <= 15; x++) {
+    const canvasX = 300 + x * 20;
     ctx.moveTo(canvasX, 0);
     ctx.lineTo(canvasX, 400);
   }
-
-  for (let y = -4; y <= 4; y += 1) {
-    const canvasY = 200 - y * 50;
+  for (let y = -10; y <= 10; y++) {
+    const canvasY = 200 - y * 20;
     ctx.moveTo(0, canvasY);
     ctx.lineTo(600, canvasY);
   }
@@ -31,7 +27,7 @@ const drawGrid = () => {
   ctx.stroke();
 };
 
-const drawGraph = (
+const drawFunction = (
   a: number,
   b: number,
   c: number,
@@ -40,20 +36,19 @@ const drawGraph = (
 ) => {
   const canvas = document.getElementById("graph") as HTMLCanvasElement;
   const ctx = canvas.getContext("2d")!;
-
+  ctx.clearRect(0, 0, 600, 400);
   drawGrid();
 
   ctx.beginPath();
   ctx.strokeStyle = "#e6aace";
   ctx.lineWidth = 3;
 
-  const scale = 50;
   let first = true;
 
-  for (let x = -5; x <= 5; x += 0.1) {
+  for (let x = -15; x <= 15; x += 0.1) {
     const y = a * Math.pow(x, 3) + b * Math.pow(x, 2) + c * x + d;
-    const canvasX = 300 + x * scale;
-    const canvasY = 200 - y * scale;
+    const canvasX = 300 + x * 20;
+    const canvasY = 200 - y * 20;
 
     if (first) {
       ctx.moveTo(canvasX, canvasY);
@@ -68,30 +63,35 @@ const drawGraph = (
     if (typeof root === "number") {
       ctx.beginPath();
       ctx.fillStyle = "red";
-      const canvasX = 300 + root * scale;
+      const canvasX = 300 + root * 20;
       const canvasY = 200;
-      ctx.arc(canvasX, canvasY, 6, 0, 2 * Math.PI);
+      ctx.arc(canvasX, canvasY, 4, 0, 2 * Math.PI);
+      ctx.fillStyle = "#0d1821";
       ctx.fill();
     }
   });
 };
 
-drawGrid();
+drawGrid(); //initalize site with empty grid
 
 const solveButton = document.getElementById(
   "solve-button",
 ) as HTMLButtonElement;
 
 solveButton.addEventListener("click", () => {
-  const aInput = document.getElementById("a-value") as HTMLInputElement;
-  const bInput = document.getElementById("b-value") as HTMLInputElement;
-  const cInput = document.getElementById("c-value") as HTMLInputElement;
-  const dInput = document.getElementById("d-value") as HTMLInputElement;
-
-  const a = parseFloat(aInput.value);
-  const b = parseFloat(bInput.value);
-  const c = parseFloat(cInput.value);
-  const d = parseFloat(dInput.value);
+  //get values(string) + convert to floats
+  const a = parseFloat(
+    (document.getElementById("a-value") as HTMLInputElement).value,
+  );
+  const b = parseFloat(
+    (document.getElementById("b-value") as HTMLInputElement).value,
+  );
+  const c = parseFloat(
+    (document.getElementById("c-value") as HTMLInputElement).value,
+  );
+  const d = parseFloat(
+    (document.getElementById("d-value") as HTMLInputElement).value,
+  );
 
   const equationEl = document.getElementById("equation-text") as HTMLElement;
   const pEl = document.getElementById("p-value")!;
@@ -101,17 +101,8 @@ solveButton.addEventListener("click", () => {
   const root2El = document.getElementById("root2-value") as HTMLElement;
   const root3El = document.getElementById("root3-value") as HTMLElement;
 
-  const formatTerm = (value: number, variable: string) => {
-    if (value === 0) return "";
-
-    if (value > 0) {
-      return ` + ${value}${variable}`;
-    } else {
-      return ` - ${Math.abs(value)}${variable}`;
-    }
-  };
-
   const clearResults = () => {
+    //clears results box
     pEl.textContent = "";
     qEl.textContent = "";
     discEl.textContent = "";
@@ -121,11 +112,23 @@ solveButton.addEventListener("click", () => {
   };
 
   if (a === 0) {
+    //must be cubic feature
     equationEl.textContent = "give a cubic equation";
     drawGrid(); // Show empty grid
     clearResults();
     return;
   }
+
+  const formatTerm = (value: number, variable: string) => {
+    //gives sign in equation
+    if (value === 0) {
+      return "";
+    } else if (value > 0) {
+      return ` + ${value}${variable}`;
+    } else {
+      return ` - ${Math.abs(value)}${variable}`;
+    }
+  };
 
   let equation = `${a}x³`;
   equation += formatTerm(b, "x²");
@@ -176,7 +179,6 @@ solveButton.addEventListener("click", () => {
       } else {
         const r1 = Math.cbrt(q / 2);
         const r2 = -2 * r1;
-
         const doubleRoot = r1 + translation;
         const singleRoot = r2 + translation;
 
@@ -203,5 +205,5 @@ solveButton.addEventListener("click", () => {
   root2El.innerHTML = formatRoot(roots[1]);
   root3El.innerHTML = formatRoot(roots[2]);
 
-  drawGraph(a, b, c, d, roots);
+  drawFunction(a, b, c, d, roots);
 });
