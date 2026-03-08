@@ -20,9 +20,9 @@ const drawGrid = () => {
   ctx.beginPath();
   ctx.strokeStyle = "#333";
   ctx.lineWidth = 2;
-  ctx.moveTo(0, 200);
+  ctx.moveTo(0, 200); // x-axis
   ctx.lineTo(600, 200);
-  ctx.moveTo(300, 0);
+  ctx.moveTo(300, 0); //y-axis
   ctx.lineTo(300, 400);
   ctx.stroke();
 };
@@ -32,17 +32,16 @@ const drawFunction = (
   b: number,
   c: number,
   d: number,
-  roots: (number | string)[],
+  roots: (number | string)[], //root number or complex string
 ) => {
   const canvas = document.getElementById("graph") as HTMLCanvasElement;
   const ctx = canvas.getContext("2d")!;
-  ctx.clearRect(0, 0, 600, 400);
+  ctx.clearRect(0, 0, 600, 400); //clears canvas + redraw grid
   drawGrid();
 
   ctx.beginPath();
   ctx.strokeStyle = "#e6aace";
   ctx.lineWidth = 3;
-
   let first = true;
 
   for (let x = -15; x <= 15; x += 0.1) {
@@ -61,8 +60,8 @@ const drawFunction = (
 
   roots.forEach((root) => {
     if (typeof root === "number") {
+      //only draw real roots
       ctx.beginPath();
-      ctx.fillStyle = "red";
       const canvasX = 300 + root * 20;
       const canvasY = 200;
       ctx.arc(canvasX, canvasY, 4, 0, 2 * Math.PI);
@@ -72,24 +71,24 @@ const drawFunction = (
   });
 };
 
-  //clears results box
+//clears results box
 const clearResults = (
-  pEl: HTMLElement,
-  qEl: HTMLElement,
-  discEl: HTMLElement,
-  root1El: HTMLElement,
-  root2El: HTMLElement,
-  root3El: HTMLElement,
+  pElement: HTMLElement,
+  qElement: HTMLElement,
+  discElement: HTMLElement,
+  root1Element: HTMLElement,
+  root2Element: HTMLElement,
+  root3Element: HTMLElement,
 ) => {
-  pEl.textContent = "";
-  qEl.textContent = "";
-  discEl.textContent = "";
-  root1El.innerHTML = "";
-  root2El.innerHTML = "";
-  root3El.innerHTML = "";
+  pElement.textContent = "";
+  qElement.textContent = "";
+  discElement.textContent = "";
+  root1Element.innerHTML = "";
+  root2Element.innerHTML = "";
+  root3Element.innerHTML = "";
 };
 
-  //gives sign in equation
+//gives sign in equation
 const formatTerm = (value: number, variable: string) => {
   if (value === 0) {
     return "";
@@ -176,39 +175,48 @@ solveButton.addEventListener("click", () => {
     (document.getElementById("d-value") as HTMLInputElement).value,
   );
 
-  const equationEl = document.getElementById("equation-text") as HTMLElement;
-  const pEl = document.getElementById("p-value")!;
-  const qEl = document.getElementById("q-value")!;
-  const discEl = document.getElementById("disc-value")!;
-  const root1El = document.getElementById("root1-value") as HTMLElement;
-  const root2El = document.getElementById("root2-value") as HTMLElement;
-  const root3El = document.getElementById("root3-value") as HTMLElement;
+  const equationElement = document.getElementById(
+    "equation-text",
+  ) as HTMLElement;
+  const pElement = document.getElementById("p-value")!;
+  const qElement = document.getElementById("q-value")!;
+  const discElement = document.getElementById("disc-value")!;
+  const root1Element = document.getElementById("root1-value") as HTMLElement;
+  const root2Element = document.getElementById("root2-value") as HTMLElement;
+  const root3Element = document.getElementById("root3-value") as HTMLElement;
 
   //must be cubic feature
   if (a === 0) {
-    equationEl.textContent = "give a cubic equation";
+    equationElement.textContent = "give a cubic equation";
     drawGrid(); // Show empty grid
-    clearResults(pEl, qEl, discEl, root1El, root2El, root3El);
+    clearResults(
+      pElement,
+      qElement,
+      discElement,
+      root1Element,
+      root2Element,
+      root3Element,
+    );
     return;
   }
 
   let equation = `${a}x³${formatTerm(b, "x²")}${formatTerm(c, "x")}${formatTerm(d, "")} = 0`;
-  equation = equation.replace(/\+ -/g, "- ").replace(/^\s\+\s/, "");
-  equationEl.textContent = equation;
+  equation = equation.replace(/\+ -/g, "- ").replace(/^\s\+\s/, ""); //removes unnecessary +
+  equationElement.textContent = equation;
 
   const p = (3 * a * c - b * b) / (3 * a * a);
   const q = (2 * b * b * b - 9 * a * b * c + 27 * a * a * d) / (27 * a * a * a);
-  const translation = -b / (3 * a);
   const discriminant = (q / 2) ** 2 + (p / 3) ** 3;
+  const translation = -b / (3 * a);
+
+  pElement.textContent = p.toFixed(4); //update result box
+  qElement.textContent = q.toFixed(4);
+  discElement.textContent = discriminant.toFixed(4);
 
   const roots = getRoots(discriminant, p, q, translation);
-
-  pEl.textContent = p.toFixed(4);  //update result box
-  qEl.textContent = q.toFixed(4);
-  discEl.textContent = discriminant.toFixed(4);
-  root1El.innerHTML = formatRoot(roots[0]);
-  root2El.innerHTML = formatRoot(roots[1]);
-  root3El.innerHTML = formatRoot(roots[2]);
+  root1Element.innerHTML = formatRoot(roots[0]);
+  root2Element.innerHTML = formatRoot(roots[1]);
+  root3Element.innerHTML = formatRoot(roots[2]);
 
   drawFunction(a, b, c, d, roots);
 });
