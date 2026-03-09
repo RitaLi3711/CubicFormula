@@ -69,11 +69,9 @@ button:hover {
   border: 3px solid #e6aace;
   border-radius: 10px;
   font-family: inherit;
-  color: #0d1821;
-}
-
-.result-box h3 {
-  margin: 0;
+  color: #0d1822;
+  border-collapse: separate;
+  overflow: hidden;
 }
 
 .result-row {
@@ -84,29 +82,33 @@ button:hover {
 }
 
 .result-row.values-row {
-  /* 2 classes*/
   background-color: #e6aace;
+}
+
+.result-title {
+  font-weight: bold;
+  text-align: left;
+  margin: 0;
+}
+
+.value-display {
+  text-align: right;
+  padding-right: 35px;
+  word-spacing: 55px;
+  margin: 0;
 }
 
 .values-header {
   text-align: right;
   word-spacing: 80px;
   padding-right: 35px;
-}
-
-#root1-value,
-#root2-value,
-#root3-value {
-  text-align: right;
-  padding-right: 35px;
-  word-spacing: 55px;
+  margin: 0;
 }
 
 .equation-display {
   margin: 20px auto;
   padding: 12px 20px;
   background: white;
-
   border: 3px solid #bfcc94;
   border-radius: 12px;
   width: fit-content;
@@ -131,6 +133,6 @@ button:hover {
 #graph {
   display: block;
   background: #f9f9f9;
-  border: 3px solid #0d1821;
+  border: 3px solid #15293a;
   border-radius: 10px;
 }

@@ -3,7 +3,7 @@ const drawGrid = () => {
   const ctx = canvas.getContext("2d")!;
 
   ctx.beginPath();
-  ctx.strokeStyle = "#cccccc"; //grid lines
+  ctx.strokeStyle = "#cccccc";
   ctx.lineWidth = 0.5;
   for (let x = -15; x <= 15; x++) {
     const canvasX = 300 + x * 20;
@@ -20,9 +20,9 @@ const drawGrid = () => {
   ctx.beginPath();
   ctx.strokeStyle = "#333";
   ctx.lineWidth = 2;
-  ctx.moveTo(0, 200); // x-axis
+  ctx.moveTo(0, 200);
   ctx.lineTo(600, 200);
-  ctx.moveTo(300, 0); //y-axis
+  ctx.moveTo(300, 0);
   ctx.lineTo(300, 400);
   ctx.stroke();
 };
@@ -32,11 +32,11 @@ const drawFunction = (
   b: number,
   c: number,
   d: number,
-  roots: (number | string)[], //root number or complex string
+  roots: (number | string)[],
 ) => {
   const canvas = document.getElementById("graph") as HTMLCanvasElement;
   const ctx = canvas.getContext("2d")!;
-  ctx.clearRect(0, 0, 600, 400); //clears canvas + redraw grid
+  ctx.clearRect(0, 0, 600, 400);
   drawGrid();
 
   ctx.beginPath();
@@ -60,7 +60,6 @@ const drawFunction = (
 
   roots.forEach((root) => {
     if (typeof root === "number") {
-      //only draw real roots
       ctx.beginPath();
       const canvasX = 300 + root * 20;
       const canvasY = 200;
@@ -71,7 +70,6 @@ const drawFunction = (
   });
 };
 
-//clears results box
 const clearResults = (
   pElement: HTMLElement,
   qElement: HTMLElement,
@@ -88,8 +86,7 @@ const clearResults = (
   root3Element.innerHTML = "";
 };
 
-//gives sign in equation
-const formatTerm = (value: number, variable: string) => {
+const formatSign = (value: number, variable: string) => {
   if (value === 0) {
     return "";
   } else if (value > 0) {
@@ -146,7 +143,6 @@ const getRoots = (
   }
 };
 
-//determine if root is complex
 const formatRoot = (r: number | string) => {
   if (typeof r === "number") {
     return `${r.toFixed(4)} 0`;
@@ -161,7 +157,6 @@ const solveButton = document.getElementById(
 ) as HTMLButtonElement;
 
 solveButton.addEventListener("click", () => {
-  //get values(string) + convert to floats
   const a = parseFloat(
     (document.getElementById("a-value") as HTMLInputElement).value,
   );
@@ -188,7 +183,7 @@ solveButton.addEventListener("click", () => {
   //must be cubic feature
   if (a === 0) {
     equationElement.textContent = "give a cubic equation";
-    drawGrid(); // Show empty grid
+    drawGrid();
     clearResults(
       pElement,
       qElement,
@@ -200,8 +195,8 @@ solveButton.addEventListener("click", () => {
     return;
   }
 
-  let equation = `${a}x³${formatTerm(b, "x²")}${formatTerm(c, "x")}${formatTerm(d, "")} = 0`;
-  equation = equation.replace(/\+ -/g, "- ").replace(/^\s\+\s/, ""); //removes unnecessary +
+  let equation = `${a}x³${formatSign(b, "x²")}${formatSign(c, "x")}${formatSign(d, "")} = 0`;
+  equation = equation.replace(/\+ -/g, "- ").replace(/^\s\+\s/, "");
   equationElement.textContent = equation;
 
   const p = (3 * a * c - b * b) / (3 * a * a);
@@ -209,7 +204,7 @@ solveButton.addEventListener("click", () => {
   const discriminant = (q / 2) ** 2 + (p / 3) ** 3;
   const translation = -b / (3 * a);
 
-  pElement.textContent = p.toFixed(4); //update result box
+  pElement.textContent = p.toFixed(4);
   qElement.textContent = q.toFixed(4);
   discElement.textContent = discriminant.toFixed(4);
 
