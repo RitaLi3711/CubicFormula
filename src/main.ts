@@ -98,7 +98,7 @@ const formatSign = (value: number, variable: string) => {
 
 const trigMethod = (p: number, q: number, translation: number) => {
   const k = 2 * Math.sqrt(-p / 3);
-  const theta = Math.acos(-q / (2 * Math.sqrt(-Math.pow(p / 3, 3)))) / 3;
+  const theta = Math.acos(-q / (2 * Math.sqrt(Math.pow(-p / 3, 3)))) / 3;
 
   return [
     k * Math.cos(theta) + translation,
