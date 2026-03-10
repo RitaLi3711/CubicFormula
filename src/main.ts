@@ -28,13 +28,7 @@ const drawGrid = () => {
   ctx.stroke();
 };
 
-const drawFunction = (
-  a: number,
-  b: number,
-  c: number,
-  d: number,
-  roots: (number | string)[]
-) => {
+const drawFunction = (a: number, b: number, c: number, d: number, roots: (number | string)[]) => {
   const canvas = document.getElementById("graph") as HTMLCanvasElement;
   const ctx = canvas.getContext("2d")!;
   drawGrid();
@@ -108,22 +102,13 @@ const trigMethod = (p: number, q: number, translation: number) => {
 };
 
 const cardanoMethod = (p: number, q: number, translation: number) => {
-  const u = Math.cbrt(
-    -q / 2 + Math.sqrt(Math.pow(q / 2, 2) + Math.pow(p / 3, 3))
-  );
-  const v = Math.cbrt(
-    -q / 2 - Math.sqrt(Math.pow(q / 2, 2) + Math.pow(p / 3, 3))
-  );
+  const u = Math.cbrt(-q / 2 + Math.sqrt(Math.pow(q / 2, 2) + Math.pow(p / 3, 3)));
+  const v = Math.cbrt(-q / 2 - Math.sqrt(Math.pow(q / 2, 2) + Math.pow(p / 3, 3)));
 
   return u + v + translation;
 };
 
-const getRoots = (
-  discriminant: number,
-  p: number,
-  q: number,
-  translation: number
-) => {
+const getRoots = (discriminant: number, p: number, q: number, translation: number) => {
   if (Math.abs(discriminant) < 1e-12) {
     discriminant = 0;
   }
@@ -155,27 +140,15 @@ const formatRoot = (r: number | string) => {
 };
 
 drawGrid(); //initalize site with empty grid
-const solveButton = document.getElementById(
-  "solve-button"
-) as HTMLButtonElement;
+const solveButton = document.getElementById("solve-button") as HTMLButtonElement;
 
 solveButton.addEventListener("click", () => {
-  const a = parseFloat(
-    (document.getElementById("a-value") as HTMLInputElement).value
-  );
-  const b = parseFloat(
-    (document.getElementById("b-value") as HTMLInputElement).value
-  );
-  const c = parseFloat(
-    (document.getElementById("c-value") as HTMLInputElement).value
-  );
-  const d = parseFloat(
-    (document.getElementById("d-value") as HTMLInputElement).value
-  );
+  const a = parseFloat((document.getElementById("a-value") as HTMLInputElement).value);
+  const b = parseFloat((document.getElementById("b-value") as HTMLInputElement).value);
+  const c = parseFloat((document.getElementById("c-value") as HTMLInputElement).value);
+  const d = parseFloat((document.getElementById("d-value") as HTMLInputElement).value);
 
-  const equationElement = document.getElementById(
-    "equation-text"
-  ) as HTMLElement;
+  const equationElement = document.getElementById("equation-text") as HTMLElement;
   const pElement = document.getElementById("p-value")!;
   const qElement = document.getElementById("q-value")!;
   const discElement = document.getElementById("disc-value")!;
@@ -183,25 +156,22 @@ solveButton.addEventListener("click", () => {
   const root2Element = document.getElementById("root2-value") as HTMLElement;
   const root3Element = document.getElementById("root3-value") as HTMLElement;
 
+  if (isNaN(a) || isNaN(b) || isNaN(c) || isNaN(d)) {
+    //must have proper inputs
+    equationElement.textContent = "no blanks in input";
+    drawGrid();
+    clearResults(pElement, qElement, discElement, root1Element, root2Element, root3Element);
+    return;
+  }
   //must be cubic feature
   if (a === 0) {
     equationElement.textContent = "give a cubic equation";
     drawGrid();
-    clearResults(
-      pElement,
-      qElement,
-      discElement,
-      root1Element,
-      root2Element,
-      root3Element
-    );
+    clearResults(pElement, qElement, discElement, root1Element, root2Element, root3Element);
     return;
   }
 
-  let equation = `${a}x³${formatSign(b, "x²")}${formatSign(c, "x")}${formatSign(
-    d,
-    ""
-  )} = 0`;
+  let equation = `${a}x³${formatSign(b, "x²")}${formatSign(c, "x")}${formatSign(d, "")} = 0`;
   equation = equation.replace(/\+ -/g, "- ").replace(/^\s\+\s/, "");
   equationElement.textContent = equation;
 
