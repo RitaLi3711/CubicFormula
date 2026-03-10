@@ -1,6 +1,7 @@
 const drawGrid = () => {
   const canvas = document.getElementById("graph") as HTMLCanvasElement;
   const ctx = canvas.getContext("2d")!;
+  ctx.clearRect(0, 0, 600, 400);
 
   ctx.beginPath();
   ctx.strokeStyle = "#cccccc";
@@ -32,11 +33,10 @@ const drawFunction = (
   b: number,
   c: number,
   d: number,
-  roots: (number | string)[],
+  roots: (number | string)[]
 ) => {
   const canvas = document.getElementById("graph") as HTMLCanvasElement;
   const ctx = canvas.getContext("2d")!;
-  ctx.clearRect(0, 0, 600, 400);
   drawGrid();
 
   ctx.beginPath();
@@ -76,7 +76,7 @@ const clearResults = (
   discElement: HTMLElement,
   root1Element: HTMLElement,
   root2Element: HTMLElement,
-  root3Element: HTMLElement,
+  root3Element: HTMLElement
 ) => {
   pElement.textContent = "";
   qElement.textContent = "";
@@ -109,10 +109,10 @@ const trigMethod = (p: number, q: number, translation: number) => {
 
 const cardanoMethod = (p: number, q: number, translation: number) => {
   const u = Math.cbrt(
-    -q / 2 + Math.sqrt(Math.pow(q / 2, 2) + Math.pow(p / 3, 3)),
+    -q / 2 + Math.sqrt(Math.pow(q / 2, 2) + Math.pow(p / 3, 3))
   );
   const v = Math.cbrt(
-    -q / 2 - Math.sqrt(Math.pow(q / 2, 2) + Math.pow(p / 3, 3)),
+    -q / 2 - Math.sqrt(Math.pow(q / 2, 2) + Math.pow(p / 3, 3))
   );
 
   return u + v + translation;
@@ -122,8 +122,11 @@ const getRoots = (
   discriminant: number,
   p: number,
   q: number,
-  translation: number,
+  translation: number
 ) => {
+  if (Math.abs(discriminant) < 1e-12) {
+    discriminant = 0;
+  }
   if (discriminant < 0) {
     return trigMethod(p, q, translation);
   } else if (discriminant > 0) {
@@ -153,25 +156,25 @@ const formatRoot = (r: number | string) => {
 
 drawGrid(); //initalize site with empty grid
 const solveButton = document.getElementById(
-  "solve-button",
+  "solve-button"
 ) as HTMLButtonElement;
 
 solveButton.addEventListener("click", () => {
   const a = parseFloat(
-    (document.getElementById("a-value") as HTMLInputElement).value,
+    (document.getElementById("a-value") as HTMLInputElement).value
   );
   const b = parseFloat(
-    (document.getElementById("b-value") as HTMLInputElement).value,
+    (document.getElementById("b-value") as HTMLInputElement).value
   );
   const c = parseFloat(
-    (document.getElementById("c-value") as HTMLInputElement).value,
+    (document.getElementById("c-value") as HTMLInputElement).value
   );
   const d = parseFloat(
-    (document.getElementById("d-value") as HTMLInputElement).value,
+    (document.getElementById("d-value") as HTMLInputElement).value
   );
 
   const equationElement = document.getElementById(
-    "equation-text",
+    "equation-text"
   ) as HTMLElement;
   const pElement = document.getElementById("p-value")!;
   const qElement = document.getElementById("q-value")!;
@@ -190,12 +193,15 @@ solveButton.addEventListener("click", () => {
       discElement,
       root1Element,
       root2Element,
-      root3Element,
+      root3Element
     );
     return;
   }
 
-  let equation = `${a}x³${formatSign(b, "x²")}${formatSign(c, "x")}${formatSign(d, "")} = 0`;
+  let equation = `${a}x³${formatSign(b, "x²")}${formatSign(c, "x")}${formatSign(
+    d,
+    ""
+  )} = 0`;
   equation = equation.replace(/\+ -/g, "- ").replace(/^\s\+\s/, "");
   equationElement.textContent = equation;
 
