@@ -12,11 +12,13 @@ const drawGrid = () => {
     ctx.moveTo(canvasX, 0);
     ctx.lineTo(canvasX, 400);
   }
+
   for (let y = -10; y <= 10; y++) {
     const canvasY = 200 - y * 20;
     ctx.moveTo(0, canvasY);
     ctx.lineTo(600, canvasY);
   }
+  
   ctx.stroke();
 
   ctx.beginPath();
