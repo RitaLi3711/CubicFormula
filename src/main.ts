@@ -6,6 +6,7 @@ const drawGrid = () => {
   ctx.beginPath();
   ctx.strokeStyle = "#cccccc";
   ctx.lineWidth = 0.5;
+
   for (let x = -15; x <= 15; x++) {
     const canvasX = 300 + x * 20;
     ctx.moveTo(canvasX, 0);
